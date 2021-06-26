@@ -1,0 +1,12 @@
+.env
+node_modules
+
+#Hardhat files
+cache
+artifacts
+
+typechain
+
+scratch
+
+scripts
