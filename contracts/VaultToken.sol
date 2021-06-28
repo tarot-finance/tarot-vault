@@ -68,11 +68,19 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
     {
         uint256 mintAmount = underlying.myBalance();
         // handle pools with deposit fees by checking balance before and after deposit
-        (uint256 _totalBalanceBefore, ) = masterChef.userInfo(pid, address(this));
+        (uint256 _totalBalanceBefore, ) = masterChef.userInfo(
+            pid,
+            address(this)
+        );
         masterChef.deposit(pid, mintAmount);
-        (uint256 _totalBalanceAfter, ) = masterChef.userInfo(pid, address(this));
+        (uint256 _totalBalanceAfter, ) = masterChef.userInfo(
+            pid,
+            address(this)
+        );
 
-        mintTokens = _totalBalanceAfter.sub(_totalBalanceBefore).mul(1e18).div(exchangeRate());
+        mintTokens = _totalBalanceAfter.sub(_totalBalanceBefore).mul(1e18).div(
+            exchangeRate()
+        );
 
         if (totalSupply == 0) {
             // permanently lock the first MINIMUM_LIQUIDITY tokens
@@ -95,10 +103,7 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
         redeemAmount = redeemTokens.mul(exchangeRate()).div(1e18);
 
         require(redeemAmount > 0, "VaultToken: REDEEM_AMOUNT_ZERO");
-        require(
-            redeemAmount <= totalBalance,
-            "VaultToken: INSUFFICIENT_CASH"
-        );
+        require(redeemAmount <= totalBalance, "VaultToken: INSUFFICIENT_CASH");
         _burn(address(this), redeemTokens);
         masterChef.withdraw(pid, redeemAmount);
         _safeTransfer(redeemer, redeemAmount);
@@ -107,20 +112,23 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
 
     /*** Reinvest ***/
 
-    function _optimalDepositA(uint256 _amountA, uint256 _reserveA, uint256 _swapFeeFactor)
-        internal
-        pure
-        returns (uint256)
-    {
+    function _optimalDepositA(
+        uint256 _amountA,
+        uint256 _reserveA,
+        uint256 _swapFeeFactor
+    ) internal pure returns (uint256) {
         uint256 a = uint256(1000).add(_swapFeeFactor).mul(_reserveA);
-        uint256 b = _amountA.mul(1000).mul(_reserveA).mul(4).mul(_swapFeeFactor);
+        uint256 b = _amountA.mul(1000).mul(_reserveA).mul(4).mul(
+            _swapFeeFactor
+        );
         uint256 c = Math.sqrt(a.mul(a).add(b));
         uint256 d = uint256(2).mul(_swapFeeFactor);
         return c.sub(a).div(d);
     }
 
     function approveRouter(address token, uint256 amount) internal {
-        if (IERC20(token).allowance(address(this), address(router)) >= amount) return;
+        if (IERC20(token).allowance(address(this), address(router)) >= amount)
+            return;
         token.safeApprove(address(router), uint256(-1));
     }
 
@@ -133,13 +141,7 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
         path[0] = address(tokenIn);
         path[1] = address(tokenOut);
         approveRouter(tokenIn, amount);
-        router.swapExactTokensForTokens(
-            amount,
-            0,
-            path,
-            address(this),
-            now
-        );
+        router.swapExactTokensForTokens(amount, 0, path, address(this), now);
     }
 
     function addLiquidity(
@@ -194,15 +196,18 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
         assert(totalAmountA > 0);
         (uint256 r0, uint256 r1, ) = IUniswapV2Pair(underlying).getReserves();
         uint256 reserveA = tokenA == token0 ? r0 : r1;
-        uint256 swapAmount = _optimalDepositA(totalAmountA, reserveA, swapFeeFactor);
+        uint256 swapAmount = _optimalDepositA(
+            totalAmountA,
+            reserveA,
+            swapFeeFactor
+        );
         swapExactTokensForTokens(tokenA, tokenB, swapAmount);
-        uint256 liquidity =
-            addLiquidity(
-                tokenA,
-                tokenB,
-                totalAmountA.sub(swapAmount),
-                tokenB.myBalance()
-            );
+        uint256 liquidity = addLiquidity(
+            tokenA,
+            tokenB,
+            totalAmountA.sub(swapAmount),
+            tokenB.myBalance()
+        );
         // 5. Stake the LP Tokens.
         masterChef.deposit(pid, liquidity);
         emit Reinvest(msg.sender, reward, bounty);
@@ -220,7 +225,7 @@ contract VaultToken is IVaultToken, IUniswapV2Pair, PoolToken {
         )
     {
         (reserve0, reserve1, blockTimestampLast) = IUniswapV2Pair(underlying)
-            .getReserves();
+        .getReserves();
         // if no token has been minted yet mirror uniswap getReserves
         if (totalSupply == 0) return (reserve0, reserve1, blockTimestampLast);
         // else, return the underlying reserves of this contract

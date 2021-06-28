@@ -1,10 +1,9 @@
 /**
  *Submitted for verification at FtmScan.com on 2021-04-25
-*/
+ */
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
-
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -27,7 +26,9 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transfer(address recipient, uint256 amount)
+        external
+        returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -36,7 +37,10 @@ interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address owner, address spender) external view returns (uint256);
+    function allowance(address owner, address spender)
+        external
+        view
+        returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -63,7 +67,11 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -77,7 +85,11 @@ interface IERC20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
 
 /**
@@ -108,7 +120,9 @@ library Address {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly { size := extcodesize(account) }
+        assembly {
+            size := extcodesize(account)
+        }
         return size > 0;
     }
 
@@ -129,11 +143,17 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(address(this).balance >= amount, "Address: insufficient balance");
+        require(
+            address(this).balance >= amount,
+            "Address: insufficient balance"
+        );
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{ value: amount }("");
-        require(success, "Address: unable to send value, recipient may have reverted");
+        (bool success, ) = recipient.call{value: amount}("");
+        require(
+            success,
+            "Address: unable to send value, recipient may have reverted"
+        );
     }
 
     /**
@@ -154,8 +174,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-      return functionCall(target, data, "Address: low-level call failed");
+    function functionCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
+        return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -164,7 +187,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+    function functionCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
         return functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -179,8 +206,18 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value
+    ) internal returns (bytes memory) {
+        return
+            functionCallWithValue(
+                target,
+                data,
+                value,
+                "Address: low-level call with value failed"
+            );
     }
 
     /**
@@ -189,12 +226,22 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
-        require(address(this).balance >= value, "Address: insufficient balance for call");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        require(
+            address(this).balance >= value,
+            "Address: insufficient balance for call"
+        );
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{ value: value }(data);
+        (bool success, bytes memory returndata) = target.call{value: value}(
+            data
+        );
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -204,8 +251,17 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
-        return functionStaticCall(target, data, "Address: low-level static call failed");
+    function functionStaticCall(address target, bytes memory data)
+        internal
+        view
+        returns (bytes memory)
+    {
+        return
+            functionStaticCall(
+                target,
+                data,
+                "Address: low-level static call failed"
+            );
     }
 
     /**
@@ -214,7 +270,11 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
+    function functionStaticCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal view returns (bytes memory) {
         require(isContract(target), "Address: static call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -228,8 +288,16 @@ library Address {
      *
      * _Available since v3.4._
      */
-    function functionDelegateCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionDelegateCall(target, data, "Address: low-level delegate call failed");
+    function functionDelegateCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
+        return
+            functionDelegateCall(
+                target,
+                data,
+                "Address: low-level delegate call failed"
+            );
     }
 
     /**
@@ -238,7 +306,11 @@ library Address {
      *
      * _Available since v3.4._
      */
-    function functionDelegateCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+    function functionDelegateCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
         require(isContract(target), "Address: delegate call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -246,7 +318,11 @@ library Address {
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
-    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
+    function _verifyCallResult(
+        bool success,
+        bytes memory returndata,
+        string memory errorMessage
+    ) private pure returns (bytes memory) {
         if (success) {
             return returndata;
         } else {
@@ -278,12 +354,27 @@ library Address {
 library SafeERC20 {
     using Address for address;
 
-    function safeTransfer(IERC20 token, address to, uint256 value) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
+    function safeTransfer(
+        IERC20 token,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transfer.selector, to, value)
+        );
     }
 
-    function safeTransferFrom(IERC20 token, address from, address to, uint256 value) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
+    function safeTransferFrom(
+        IERC20 token,
+        address from,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transferFrom.selector, from, to, value)
+        );
     }
 
     /**
@@ -293,28 +384,61 @@ library SafeERC20 {
      * Whenever possible, use {safeIncreaseAllowance} and
      * {safeDecreaseAllowance} instead.
      */
-    function safeApprove(IERC20 token, address spender, uint256 value) internal {
+    function safeApprove(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
         // safeApprove should only be called when setting an initial allowance,
         // or when resetting it to zero. To increase and decrease it, use
         // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
         // solhint-disable-next-line max-line-length
-        require((value == 0) || (token.allowance(address(this), spender) == 0),
+        require(
+            (value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeERC20: approve from non-zero to non-zero allowance"
         );
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.approve.selector, spender, value)
+        );
     }
 
-    function safeIncreaseAllowance(IERC20 token, address spender, uint256 value) internal {
+    function safeIncreaseAllowance(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
         uint256 newAllowance = token.allowance(address(this), spender) + value;
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(
+                token.approve.selector,
+                spender,
+                newAllowance
+            )
+        );
     }
 
-    function safeDecreaseAllowance(IERC20 token, address spender, uint256 value) internal {
+    function safeDecreaseAllowance(
+        IERC20 token,
+        address spender,
+        uint256 value
+    ) internal {
         unchecked {
             uint256 oldAllowance = token.allowance(address(this), spender);
-            require(oldAllowance >= value, "SafeERC20: decreased allowance below zero");
+            require(
+                oldAllowance >= value,
+                "SafeERC20: decreased allowance below zero"
+            );
             uint256 newAllowance = oldAllowance - value;
-            _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+            _callOptionalReturn(
+                token,
+                abi.encodeWithSelector(
+                    token.approve.selector,
+                    spender,
+                    newAllowance
+                )
+            );
         }
     }
 
@@ -329,10 +453,17 @@ library SafeERC20 {
         // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that
         // the target address contains contract code and also asserts for success in the low-level call.
 
-        bytes memory returndata = address(token).functionCall(data, "SafeERC20: low-level call failed");
-        if (returndata.length > 0) { // Return data is optional
+        bytes memory returndata = address(token).functionCall(
+            data,
+            "SafeERC20: low-level call failed"
+        );
+        if (returndata.length > 0) {
+            // Return data is optional
             // solhint-disable-next-line max-line-length
-            require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
+            require(
+                abi.decode(returndata, (bool)),
+                "SafeERC20: ERC20 operation did not succeed"
+            );
         }
     }
 }
@@ -353,7 +484,11 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
+    function tryAdd(uint256 a, uint256 b)
+        internal
+        pure
+        returns (bool, uint256)
+    {
         unchecked {
             uint256 c = a + b;
             if (c < a) return (false, 0);
@@ -366,7 +501,11 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
+    function trySub(uint256 a, uint256 b)
+        internal
+        pure
+        returns (bool, uint256)
+    {
         unchecked {
             if (b > a) return (false, 0);
             return (true, a - b);
@@ -378,7 +517,11 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
+    function tryMul(uint256 a, uint256 b)
+        internal
+        pure
+        returns (bool, uint256)
+    {
         unchecked {
             // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
             // benefit is lost if 'b' is also tested.
@@ -395,7 +538,11 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
+    function tryDiv(uint256 a, uint256 b)
+        internal
+        pure
+        returns (bool, uint256)
+    {
         unchecked {
             if (b == 0) return (false, 0);
             return (true, a / b);
@@ -407,7 +554,11 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
+    function tryMod(uint256 a, uint256 b)
+        internal
+        pure
+        returns (bool, uint256)
+    {
         unchecked {
             if (b == 0) return (false, 0);
             return (true, a % b);
@@ -499,7 +650,11 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         unchecked {
             require(b <= a, errorMessage);
             return a - b;
@@ -522,7 +677,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         unchecked {
             require(b > 0, errorMessage);
             return a / b;
@@ -544,7 +703,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         unchecked {
             require(b > 0, errorMessage);
             return a % b;
@@ -598,9 +761,9 @@ abstract contract Context {
  * allowances. See {IERC20-approve}.
  */
 contract ERC20 is Context, IERC20 {
-    mapping (address => uint256) private _balances;
+    mapping(address => uint256) private _balances;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
 
@@ -616,7 +779,7 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_) {
         _name = name_;
         _symbol = symbol_;
     }
@@ -663,7 +826,13 @@ contract ERC20 is Context, IERC20 {
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view virtual override returns (uint256) {
+    function balanceOf(address account)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
         return _balances[account];
     }
 
@@ -675,7 +844,12 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
+    function transfer(address recipient, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
+    {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
@@ -683,7 +857,13 @@ contract ERC20 is Context, IERC20 {
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view virtual override returns (uint256) {
+    function allowance(address owner, address spender)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
         return _allowances[owner][spender];
     }
 
@@ -694,7 +874,12 @@ contract ERC20 is Context, IERC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public virtual override returns (bool) {
+    function approve(address spender, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
+    {
         _approve(_msgSender(), spender, amount);
         return true;
     }
@@ -712,11 +897,18 @@ contract ERC20 is Context, IERC20 {
      * - the caller must have allowance for ``sender``'s tokens of at least
      * `amount`.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
 
         uint256 currentAllowance = _allowances[sender][_msgSender()];
-        require(currentAllowance >= amount, "ERC20: transfer amount exceeds allowance");
+        require(
+            currentAllowance >= amount,
+            "ERC20: transfer amount exceeds allowance"
+        );
         _approve(sender, _msgSender(), currentAllowance - amount);
 
         return true;
@@ -734,8 +926,16 @@ contract ERC20 is Context, IERC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender] + addedValue);
+    function increaseAllowance(address spender, uint256 addedValue)
+        public
+        virtual
+        returns (bool)
+    {
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender] + addedValue
+        );
         return true;
     }
 
@@ -753,9 +953,16 @@ contract ERC20 is Context, IERC20 {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
+    function decreaseAllowance(address spender, uint256 subtractedValue)
+        public
+        virtual
+        returns (bool)
+    {
         uint256 currentAllowance = _allowances[_msgSender()][spender];
-        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        require(
+            currentAllowance >= subtractedValue,
+            "ERC20: decreased allowance below zero"
+        );
         _approve(_msgSender(), spender, currentAllowance - subtractedValue);
 
         return true;
@@ -775,14 +982,21 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
      */
-    function _transfer(address sender, address recipient, uint256 amount) internal virtual {
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
         uint256 senderBalance = _balances[sender];
-        require(senderBalance >= amount, "ERC20: transfer amount exceeds balance");
+        require(
+            senderBalance >= amount,
+            "ERC20: transfer amount exceeds balance"
+        );
         _balances[sender] = senderBalance - amount;
         _balances[recipient] += amount;
 
@@ -845,7 +1059,11 @@ contract ERC20 is Context, IERC20 {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve(address owner, address spender, uint256 amount) internal virtual {
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
@@ -867,9 +1085,12 @@ contract ERC20 is Context, IERC20 {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {}
 }
-
 
 /**
  * @dev Elliptic Curve Digital Signature Algorithm (ECDSA) operations.
@@ -892,7 +1113,11 @@ library ECDSA {
      * this is by receiving a hash of the original message (which may otherwise
      * be too long), and then calling {toEthSignedMessageHash} on it.
      */
-    function recover(bytes32 hash, bytes memory signature) internal pure returns (address) {
+    function recover(bytes32 hash, bytes memory signature)
+        internal
+        pure
+        returns (address)
+    {
         // Check the signature length
         if (signature.length != 65) {
             revert("ECDSA: invalid signature length");
@@ -919,7 +1144,12 @@ library ECDSA {
      * @dev Overload of {ECDSA-recover} that receives the `v`,
      * `r` and `s` signature fields separately.
      */
-    function recover(bytes32 hash, uint8 v, bytes32 r, bytes32 s) internal pure returns (address) {
+    function recover(
+        bytes32 hash,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) internal pure returns (address) {
         // EIP-2 still allows signature malleability for ecrecover(). Remove this possibility and make the signature
         // unique. Appendix F in the Ethereum Yellow paper (https://ethereum.github.io/yellowpaper/paper.pdf), defines
         // the valid range for s in (281): 0 < s < secp256k1n ÷ 2 + 1, and for v in (282): v ∈ {27, 28}. Most
@@ -929,7 +1159,11 @@ library ECDSA {
         // with 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141 - s1 and flip v from 27 to 28 or
         // vice versa. If your library also generates signatures with 0/1 for v instead 27/28, add 27 to v to accept
         // these malleable signatures as well.
-        require(uint256(s) <= 0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0, "ECDSA: invalid signature 's' value");
+        require(
+            uint256(s) <=
+                0x7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF5D576E7357A4501DDFE92F46681B20A0,
+            "ECDSA: invalid signature 's' value"
+        );
         require(v == 27 || v == 28, "ECDSA: invalid signature 'v' value");
 
         // If the signature is valid (and not malleable), return the signer address
@@ -947,10 +1181,17 @@ library ECDSA {
      *
      * See {recover}.
      */
-    function toEthSignedMessageHash(bytes32 hash) internal pure returns (bytes32) {
+    function toEthSignedMessageHash(bytes32 hash)
+        internal
+        pure
+        returns (bytes32)
+    {
         // 32 is the length in bytes of hash,
         // enforced by the type signature above
-        return keccak256(abi.encodePacked("\x19Ethereum Signed Message:\n32", hash));
+        return
+            keccak256(
+                abi.encodePacked("\x19Ethereum Signed Message:\n32", hash)
+            );
     }
 
     /**
@@ -962,11 +1203,17 @@ library ECDSA {
      *
      * See {recover}.
      */
-    function toTypedDataHash(bytes32 domainSeparator, bytes32 structHash) internal pure returns (bytes32) {
-        return keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
+    function toTypedDataHash(bytes32 domainSeparator, bytes32 structHash)
+        internal
+        pure
+        returns (bytes32)
+    {
+        return
+            keccak256(
+                abi.encodePacked("\x19\x01", domainSeparator, structHash)
+            );
     }
 }
-
 
 /**
  * @dev https://eips.ethereum.org/EIPS/eip-712[EIP 712] is a standard for hashing and signing of typed structured data.
@@ -997,6 +1244,7 @@ abstract contract EIP712 {
     bytes32 private immutable _HASHED_NAME;
     bytes32 private immutable _HASHED_VERSION;
     bytes32 private immutable _TYPE_HASH;
+
     /* solhint-enable var-name-mixedcase */
 
     /**
@@ -1014,11 +1262,17 @@ abstract contract EIP712 {
     constructor(string memory name, string memory version) {
         bytes32 hashedName = keccak256(bytes(name));
         bytes32 hashedVersion = keccak256(bytes(version));
-        bytes32 typeHash = keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
+        bytes32 typeHash = keccak256(
+            "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
+        );
         _HASHED_NAME = hashedName;
         _HASHED_VERSION = hashedVersion;
         _CACHED_CHAIN_ID = block.chainid;
-        _CACHED_DOMAIN_SEPARATOR = _buildDomainSeparator(typeHash, hashedName, hashedVersion);
+        _CACHED_DOMAIN_SEPARATOR = _buildDomainSeparator(
+            typeHash,
+            hashedName,
+            hashedVersion
+        );
         _TYPE_HASH = typeHash;
     }
 
@@ -1029,20 +1283,30 @@ abstract contract EIP712 {
         if (block.chainid == _CACHED_CHAIN_ID) {
             return _CACHED_DOMAIN_SEPARATOR;
         } else {
-            return _buildDomainSeparator(_TYPE_HASH, _HASHED_NAME, _HASHED_VERSION);
+            return
+                _buildDomainSeparator(
+                    _TYPE_HASH,
+                    _HASHED_NAME,
+                    _HASHED_VERSION
+                );
         }
     }
 
-    function _buildDomainSeparator(bytes32 typeHash, bytes32 name, bytes32 version) private view returns (bytes32) {
-        return keccak256(
-            abi.encode(
-                typeHash,
-                name,
-                version,
-                block.chainid,
-                address(this)
-            )
-        );
+    function _buildDomainSeparator(
+        bytes32 typeHash,
+        bytes32 name,
+        bytes32 version
+    ) private view returns (bytes32) {
+        return
+            keccak256(
+                abi.encode(
+                    typeHash,
+                    name,
+                    version,
+                    block.chainid,
+                    address(this)
+                )
+            );
     }
 
     /**
@@ -1060,7 +1324,12 @@ abstract contract EIP712 {
      * address signer = ECDSA.recover(digest, signature);
      * ```
      */
-    function _hashTypedDataV4(bytes32 structHash) internal view virtual returns (bytes32) {
+    function _hashTypedDataV4(bytes32 structHash)
+        internal
+        view
+        virtual
+        returns (bytes32)
+    {
         return ECDSA.toTypedDataHash(_domainSeparatorV4(), structHash);
     }
 }
@@ -1100,10 +1369,8 @@ library Counters {
     }
 }
 
-
 // This version of ERC20Permit is from OpenZeppelin as of commit
 // https://github.com/OpenZeppelin/openzeppelin-contracts/commit/5171e46c47bd6be781aa92315944ca37126d4a73
-
 
 /**
  * @dev Interface of the ERC20 Permit extension allowing approvals to be made via signatures, as defined in
@@ -1135,7 +1402,15 @@ interface IERC20Permit {
      * https://eips.ethereum.org/EIPS/eip-2612#specification[relevant EIP
      * section].
      */
-    function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) external;
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external;
 
     /**
      * @dev Returns the current nonce for `owner`. This value must be
@@ -1166,23 +1441,33 @@ interface IERC20Permit {
 abstract contract ERC20Permit is ERC20, IERC20Permit, EIP712 {
     using Counters for Counters.Counter;
 
-    mapping (address => Counters.Counter) private _nonces;
+    mapping(address => Counters.Counter) private _nonces;
 
     // solhint-disable-next-line var-name-mixedcase
-    bytes32 private immutable _PERMIT_TYPEHASH = keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+    bytes32 private immutable _PERMIT_TYPEHASH =
+        keccak256(
+            "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
+        );
 
     /**
      * @dev Initializes the {EIP712} domain separator using the `name` parameter, and setting `version` to `"1"`.
      *
      * It's a good idea to use the same `name` that is defined as the ERC20 token name.
      */
-    constructor(string memory name) EIP712(name, "1") {
-    }
+    constructor(string memory name) EIP712(name, "1") {}
 
     /**
      * @dev See {IERC20Permit-permit}.
      */
-    function permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s) public virtual override {
+    function permit(
+        address owner,
+        address spender,
+        uint256 value,
+        uint256 deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) public virtual override {
         // solhint-disable-next-line not-rely-on-time
         require(block.timestamp <= deadline, "ERC20Permit: expired deadline");
 
@@ -1208,7 +1493,13 @@ abstract contract ERC20Permit is ERC20, IERC20Permit, EIP712 {
     /**
      * @dev See {IERC20Permit-nonces}.
      */
-    function nonces(address owner) public view virtual override returns (uint256) {
+    function nonces(address owner)
+        public
+        view
+        virtual
+        override
+        returns (uint256)
+    {
         return _nonces[owner].current();
     }
 
@@ -1223,13 +1514,16 @@ abstract contract ERC20Permit is ERC20, IERC20Permit, EIP712 {
     /**
      * @dev "Consume a nonce": return the current value and increment.
      */
-    function _useNonce(address owner) internal virtual returns (uint256 current) {
+    function _useNonce(address owner)
+        internal
+        virtual
+        returns (uint256 current)
+    {
         Counters.Counter storage nonce = _nonces[owner];
         current = nonce.current();
         nonce.increment();
     }
 }
-
 
 /**
  * @dev Contract module which provides a basic access control mechanism, where
@@ -1246,12 +1540,15 @@ abstract contract ERC20Permit is ERC20, IERC20Permit, EIP712 {
 abstract contract Ownable is Context {
     address private _owner;
 
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () {
+    constructor() {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -1289,28 +1586,29 @@ abstract contract Ownable is Context {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
 }
 
 contract SpookyToken is ERC20Permit, Ownable {
+    constructor() ERC20("SpookyToken", "BOO") ERC20Permit("SpookyToken") {}
 
-    constructor() ERC20("SpookyToken", "BOO") ERC20Permit("SpookyToken")
-    {
-
-    }
-
-    uint256 constant private _maxTotalSupply = 13666000e18; // 13,666,000 max spooks
+    uint256 private constant _maxTotalSupply = 13666000e18; // 13,666,000 max spooks
 
     function mint(address _to, uint256 _amount) public onlyOwner {
-        require(totalSupply() + _amount <= _maxTotalSupply, "ERC20: minting more then MaxTotalSupply");
+        require(
+            totalSupply() + _amount <= _maxTotalSupply,
+            "ERC20: minting more then MaxTotalSupply"
+        );
 
         _mint(_to, _amount);
         _moveDelegates(address(0), _to, _amount);
     }
-
 
     // Returns maximum total supply of the token
     function getMaxTotalSupply() external pure returns (uint256) {
@@ -1324,7 +1622,7 @@ contract SpookyToken is ERC20Permit, Ownable {
     // https://github.com/compound-finance/compound-protocol/blob/master/contracts/Governance/Comp.sol
 
     // A record of each accounts delegate
-    mapping (address => address) internal _delegates;
+    mapping(address => address) internal _delegates;
 
     /// @notice A checkpoint for marking number of votes from a given block
     struct Checkpoint {
@@ -1333,38 +1631,54 @@ contract SpookyToken is ERC20Permit, Ownable {
     }
 
     /// @notice A record of votes checkpoints for each account, by index
-    mapping (address => mapping (uint32 => Checkpoint)) public checkpoints;
+    mapping(address => mapping(uint32 => Checkpoint)) public checkpoints;
 
     /// @notice The number of checkpoints for each account
-    mapping (address => uint32) public numCheckpoints;
+    mapping(address => uint32) public numCheckpoints;
 
     /// @notice The EIP-712 typehash for the contract's domain
-    bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
+    bytes32 public constant DOMAIN_TYPEHASH =
+        keccak256(
+            "EIP712Domain(string name,uint256 chainId,address verifyingContract)"
+        );
 
     /// @notice The EIP-712 typehash for the delegation struct used by the contract
-    bytes32 public constant DELEGATION_TYPEHASH = keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
+    bytes32 public constant DELEGATION_TYPEHASH =
+        keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
 
     // A record of states for signing / validating signatures
     //mapping (address => uint) public nonces;
 
-      /// @notice An event thats emitted when an account changes its delegate
-    event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
+    /// @notice An event thats emitted when an account changes its delegate
+    event DelegateChanged(
+        address indexed delegator,
+        address indexed fromDelegate,
+        address indexed toDelegate
+    );
 
     /// @notice An event thats emitted when a delegate account's vote balance changes
-    event DelegateVotesChanged(address indexed delegate, uint previousBalance, uint newBalance);
-    
+    event DelegateVotesChanged(
+        address indexed delegate,
+        uint256 previousBalance,
+        uint256 newBalance
+    );
 
-    function transferFrom(address sender, address recipient, uint256 amount) 
-    public virtual override returns (bool)
-    {
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
         bool result = super.transferFrom(sender, recipient, amount); // Call parent hook
         _moveDelegates(sender, recipient, amount);
 
         return result;
     }
 
-    function transfer(address recipient, uint256 amount) 
-    public virtual override returns (bool)
+    function transfer(address recipient, uint256 amount)
+        public
+        virtual
+        override
+        returns (bool)
     {
         bool result = super.transfer(recipient, amount); // Call parent hook
         _moveDelegates(_msgSender(), recipient, amount);
@@ -1375,18 +1689,14 @@ contract SpookyToken is ERC20Permit, Ownable {
     /**
      * @param delegator The address to get delegates for
      */
-    function delegates(address delegator)
-        external
-        view
-        returns (address)
-    {
+    function delegates(address delegator) external view returns (address) {
         return _delegates[delegator];
     }
 
-   /**
-    * @notice Delegate votes from `msg.sender` to `delegatee`
-    * @param delegatee The address to delegate votes to
-    */
+    /**
+     * @notice Delegate votes from `msg.sender` to `delegatee`
+     * @param delegatee The address to delegate votes to
+     */
     function delegate(address delegatee) external {
         return _delegate(msg.sender, delegatee);
     }
@@ -1400,7 +1710,14 @@ contract SpookyToken is ERC20Permit, Ownable {
      * @param r Half of the ECDSA signature pair
      * @param s Half of the ECDSA signature pair
      */
-    function delegateBySig(address delegatee, uint nonce, uint expiry, uint8 v, bytes32 r, bytes32 s ) external {
+    function delegateBySig(
+        address delegatee,
+        uint256 nonce,
+        uint256 expiry,
+        uint8 v,
+        bytes32 r,
+        bytes32 s
+    ) external {
         bytes32 domainSeparator = keccak256(
             abi.encode(
                 DOMAIN_TYPEHASH,
@@ -1411,26 +1728,26 @@ contract SpookyToken is ERC20Permit, Ownable {
         );
 
         bytes32 structHash = keccak256(
-            abi.encode(
-                DELEGATION_TYPEHASH,
-                delegatee,
-                nonce,
-                expiry
-            )
+            abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry)
         );
 
         bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator,
-                structHash
-            )
+            abi.encodePacked("\x19\x01", domainSeparator, structHash)
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "SPOOK::delegateBySig: invalid signature");
-        require(nonce == _useNonce(signatory), "SPOOK::delegateBySig: invalid nonce");
-        require(block.timestamp <= expiry, "SPOOK::delegateBySig: signature expired");
+        require(
+            signatory != address(0),
+            "SPOOK::delegateBySig: invalid signature"
+        );
+        require(
+            nonce == _useNonce(signatory),
+            "SPOOK::delegateBySig: invalid nonce"
+        );
+        require(
+            block.timestamp <= expiry,
+            "SPOOK::delegateBySig: signature expired"
+        );
         return _delegate(signatory, delegatee);
     }
 
@@ -1439,13 +1756,10 @@ contract SpookyToken is ERC20Permit, Ownable {
      * @param account The address to get votes balance
      * @return The number of current votes for `account`
      */
-    function getCurrentVotes(address account)
-        external
-        view
-        returns (uint256)
-    {
+    function getCurrentVotes(address account) external view returns (uint256) {
         uint32 nCheckpoints = numCheckpoints[account];
-        return nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
+        return
+            nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
     }
 
     /**
@@ -1455,12 +1769,15 @@ contract SpookyToken is ERC20Permit, Ownable {
      * @param blockNumber The block number to get the vote balance at
      * @return The number of votes the account had as of the given block
      */
-    function getPriorVotes(address account, uint blockNumber)
+    function getPriorVotes(address account, uint256 blockNumber)
         external
         view
         returns (uint256)
     {
-        require(blockNumber < block.number, "SPOOK::getPriorVotes: not yet determined");
+        require(
+            blockNumber < block.number,
+            "SPOOK::getPriorVotes: not yet determined"
+        );
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -1493,9 +1810,7 @@ contract SpookyToken is ERC20Permit, Ownable {
         return checkpoints[account][lower].votes;
     }
 
-    function _delegate(address delegator, address delegatee)
-        internal
-    {
+    function _delegate(address delegator, address delegatee) internal {
         address currentDelegate = _delegates[delegator];
         uint256 delegatorBalance = balanceOf(delegator); // balance of underlying SPOOKs (not scaled);
         _delegates[delegator] = delegatee;
@@ -1505,12 +1820,18 @@ contract SpookyToken is ERC20Permit, Ownable {
         _moveDelegates(currentDelegate, delegatee, delegatorBalance);
     }
 
-    function _moveDelegates(address srcRep, address dstRep, uint256 amount) internal {
+    function _moveDelegates(
+        address srcRep,
+        address dstRep,
+        uint256 amount
+    ) internal {
         if (srcRep != dstRep && amount > 0) {
             if (srcRep != address(0)) {
                 // decrease old representative
                 uint32 srcRepNum = numCheckpoints[srcRep];
-                uint256 srcRepOld = srcRepNum > 0 ? checkpoints[srcRep][srcRepNum - 1].votes : 0;
+                uint256 srcRepOld = srcRepNum > 0
+                    ? checkpoints[srcRep][srcRepNum - 1].votes
+                    : 0;
                 uint256 srcRepNew = srcRepOld - amount;
                 _writeCheckpoint(srcRep, srcRepNum, srcRepOld, srcRepNew);
             }
@@ -1518,7 +1839,9 @@ contract SpookyToken is ERC20Permit, Ownable {
             if (dstRep != address(0)) {
                 // increase new representative
                 uint32 dstRepNum = numCheckpoints[dstRep];
-                uint256 dstRepOld = dstRepNum > 0 ? checkpoints[dstRep][dstRepNum - 1].votes : 0;
+                uint256 dstRepOld = dstRepNum > 0
+                    ? checkpoints[dstRep][dstRepNum - 1].votes
+                    : 0;
                 uint256 dstRepNew = dstRepOld + amount;
                 _writeCheckpoint(dstRep, dstRepNum, dstRepOld, dstRepNew);
             }
@@ -1530,42 +1853,53 @@ contract SpookyToken is ERC20Permit, Ownable {
         uint32 nCheckpoints,
         uint256 oldVotes,
         uint256 newVotes
-    )
-        internal
-    {
-        uint32 blockNumber = safe32(block.number, "SPOOK::_writeCheckpoint: block number exceeds 32 bits");
+    ) internal {
+        uint32 blockNumber = safe32(
+            block.number,
+            "SPOOK::_writeCheckpoint: block number exceeds 32 bits"
+        );
 
-        if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
+        if (
+            nCheckpoints > 0 &&
+            checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber
+        ) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
         } else {
-            checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber, newVotes);
+            checkpoints[delegatee][nCheckpoints] = Checkpoint(
+                blockNumber,
+                newVotes
+            );
             numCheckpoints[delegatee] = nCheckpoints + 1;
         }
 
         emit DelegateVotesChanged(delegatee, oldVotes, newVotes);
     }
 
-    function safe32(uint n, string memory errorMessage) internal pure returns (uint32) {
+    function safe32(uint256 n, string memory errorMessage)
+        internal
+        pure
+        returns (uint32)
+    {
         require(n < 2**32, errorMessage);
         return uint32(n);
     }
 
-    function getChainId() internal view returns (uint) {
+    function getChainId() internal view returns (uint256) {
         uint256 chainId;
-        assembly { chainId := chainid() }
+        assembly {
+            chainId := chainid()
+        }
         return chainId;
     }
-
-
-
 }
+
 contract MasterChef is Ownable {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 
     // Info of each user.
     struct UserInfo {
-        uint256 amount;     // How many LP tokens the user has provided.
+        uint256 amount; // How many LP tokens the user has provided.
         uint256 rewardDebt; // Reward debt. See explanation below.
         //
         // We do some fancy math here. Basically, any point in time, the amount of BOOs
@@ -1582,9 +1916,9 @@ contract MasterChef is Ownable {
 
     // Info of each pool.
     struct PoolInfo {
-        IERC20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. BOOs to distribute per block.
-        uint256 lastRewardTime;  // Last block time that BOOs distribution occurs.
+        IERC20 lpToken; // Address of LP token contract.
+        uint256 allocPoint; // How many allocation points assigned to this pool. BOOs to distribute per block.
+        uint256 lastRewardTime; // Last block time that BOOs distribution occurs.
         uint256 accBOOPerShare; // Accumulated BOOs per share, times 1e12. See below.
     }
 
@@ -1604,7 +1938,7 @@ contract MasterChef is Ownable {
     // Info of each pool.
     PoolInfo[] public poolInfo;
     // Info of each user that stakes LP tokens.
-    mapping (uint256 => mapping (address => UserInfo)) public userInfo;
+    mapping(uint256 => mapping(address => UserInfo)) public userInfo;
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
     // The block time when boo mining starts.
@@ -1612,7 +1946,11 @@ contract MasterChef is Ownable {
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
-    event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
+    event EmergencyWithdraw(
+        address indexed user,
+        uint256 indexed pid,
+        uint256 amount
+    );
 
     constructor(
         SpookyToken _boo,
@@ -1633,11 +1971,14 @@ contract MasterChef is Ownable {
     // Changes boo token reward per second, with a cap of maxboo per second
     // Good practice to update pools without messing up the contract
     function setBooPerSecond(uint256 _booPerSecond) external onlyOwner {
-        require(_booPerSecond <= maxBooPerSecond, "setBooPerSecond: too many boos!");
+        require(
+            _booPerSecond <= maxBooPerSecond,
+            "setBooPerSecond: too many boos!"
+        );
 
         // This MUST be done or pool rewards will be calculated with new boo per second
         // This could unfairly punish small pools that dont have frequent deposits/withdraws/harvests
-        massUpdatePools(); 
+        massUpdatePools();
 
         booPerSecond = _booPerSecond;
     }
@@ -1645,9 +1986,11 @@ contract MasterChef is Ownable {
     function checkForDuplicate(IERC20 _lpToken) internal view {
         uint256 length = poolInfo.length;
         for (uint256 _pid = 0; _pid < length; _pid++) {
-            require(poolInfo[_pid].lpToken != _lpToken, "add: pool already exists!!!!");
+            require(
+                poolInfo[_pid].lpToken != _lpToken,
+                "add: pool already exists!!!!"
+            );
         }
-
     }
 
     // Add a new lp to the pool. Can only be called by the owner.
@@ -1658,14 +2001,18 @@ contract MasterChef is Ownable {
 
         massUpdatePools();
 
-        uint256 lastRewardTime = block.timestamp > startTime ? block.timestamp : startTime;
+        uint256 lastRewardTime = block.timestamp > startTime
+            ? block.timestamp
+            : startTime;
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
-        poolInfo.push(PoolInfo({
-            lpToken: _lpToken,
-            allocPoint: _allocPoint,
-            lastRewardTime: lastRewardTime,
-            accBOOPerShare: 0
-        }));
+        poolInfo.push(
+            PoolInfo({
+                lpToken: _lpToken,
+                allocPoint: _allocPoint,
+                lastRewardTime: lastRewardTime,
+                accBOOPerShare: 0
+            })
+        );
     }
 
     // Update the given pool's boo allocation point. Can only be called by the owner.
@@ -1674,12 +2021,19 @@ contract MasterChef is Ownable {
 
         massUpdatePools();
 
-        totalAllocPoint = totalAllocPoint - poolInfo[_pid].allocPoint + _allocPoint;
+        totalAllocPoint =
+            totalAllocPoint -
+            poolInfo[_pid].allocPoint +
+            _allocPoint;
         poolInfo[_pid].allocPoint = _allocPoint;
     }
 
     // Return reward multiplier over the given _from to _to block.
-    function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
+    function getMultiplier(uint256 _from, uint256 _to)
+        public
+        view
+        returns (uint256)
+    {
         _from = _from > startTime ? _from : startTime;
         if (_to < startTime) {
             return 0;
@@ -1688,15 +2042,27 @@ contract MasterChef is Ownable {
     }
 
     // View function to see pending BOOs on frontend.
-    function pendingBOO(uint256 _pid, address _user) external view returns (uint256) {
+    function pendingBOO(uint256 _pid, address _user)
+        external
+        view
+        returns (uint256)
+    {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accBOOPerShare = pool.accBOOPerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
         if (block.timestamp > pool.lastRewardTime && lpSupply != 0) {
-            uint256 multiplier = getMultiplier(pool.lastRewardTime, block.timestamp);
-            uint256 booReward = multiplier.mul(booPerSecond).mul(pool.allocPoint).div(totalAllocPoint);
-            accBOOPerShare = accBOOPerShare.add(booReward.mul(1e12).div(lpSupply));
+            uint256 multiplier = getMultiplier(
+                pool.lastRewardTime,
+                block.timestamp
+            );
+            uint256 booReward = multiplier
+            .mul(booPerSecond)
+            .mul(pool.allocPoint)
+            .div(totalAllocPoint);
+            accBOOPerShare = accBOOPerShare.add(
+                booReward.mul(1e12).div(lpSupply)
+            );
         }
         return user.amount.mul(accBOOPerShare).div(1e12).sub(user.rewardDebt);
     }
@@ -1720,39 +2086,52 @@ contract MasterChef is Ownable {
             pool.lastRewardTime = block.timestamp;
             return;
         }
-        uint256 multiplier = getMultiplier(pool.lastRewardTime, block.timestamp);
-        uint256 booReward = multiplier.mul(booPerSecond).mul(pool.allocPoint).div(totalAllocPoint);
+        uint256 multiplier = getMultiplier(
+            pool.lastRewardTime,
+            block.timestamp
+        );
+        uint256 booReward = multiplier
+        .mul(booPerSecond)
+        .mul(pool.allocPoint)
+        .div(totalAllocPoint);
 
         boo.mint(devaddr, booReward.div(10));
         boo.mint(address(this), booReward);
 
-        pool.accBOOPerShare = pool.accBOOPerShare.add(booReward.mul(1e12).div(lpSupply));
+        pool.accBOOPerShare = pool.accBOOPerShare.add(
+            booReward.mul(1e12).div(lpSupply)
+        );
         pool.lastRewardTime = block.timestamp;
     }
 
     // Deposit LP tokens to MasterChef for boo allocation.
     function deposit(uint256 _pid, uint256 _amount) public {
-
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
 
         updatePool(_pid);
 
-        uint256 pending = user.amount.mul(pool.accBOOPerShare).div(1e12).sub(user.rewardDebt);
+        uint256 pending = user.amount.mul(pool.accBOOPerShare).div(1e12).sub(
+            user.rewardDebt
+        );
 
         user.amount = user.amount.add(_amount);
         user.rewardDebt = user.amount.mul(pool.accBOOPerShare).div(1e12);
 
-        if(pending > 0) {
+        if (pending > 0) {
             safeBOOTransfer(msg.sender, pending);
         }
-        pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
+        pool.lpToken.safeTransferFrom(
+            address(msg.sender),
+            address(this),
+            _amount
+        );
 
         emit Deposit(msg.sender, _pid, _amount);
     }
 
     // Withdraw LP tokens from MasterChef.
-    function withdraw(uint256 _pid, uint256 _amount) public {  
+    function withdraw(uint256 _pid, uint256 _amount) public {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
 
@@ -1760,16 +2139,18 @@ contract MasterChef is Ownable {
 
         updatePool(_pid);
 
-        uint256 pending = user.amount.mul(pool.accBOOPerShare).div(1e12).sub(user.rewardDebt);
+        uint256 pending = user.amount.mul(pool.accBOOPerShare).div(1e12).sub(
+            user.rewardDebt
+        );
 
         user.amount = user.amount.sub(_amount);
         user.rewardDebt = user.amount.mul(pool.accBOOPerShare).div(1e12);
 
-        if(pending > 0) {
+        if (pending > 0) {
             safeBOOTransfer(msg.sender, pending);
         }
         pool.lpToken.safeTransfer(address(msg.sender), _amount);
-        
+
         emit Withdraw(msg.sender, _pid, _amount);
     }
 
@@ -1778,13 +2159,12 @@ contract MasterChef is Ownable {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][msg.sender];
 
-        uint oldUserAmount = user.amount;
+        uint256 oldUserAmount = user.amount;
         user.amount = 0;
         user.rewardDebt = 0;
 
         pool.lpToken.safeTransfer(address(msg.sender), oldUserAmount);
         emit EmergencyWithdraw(msg.sender, _pid, oldUserAmount);
-
     }
 
     // Safe boo transfer function, just in case if rounding error causes pool to not have enough BOOs.

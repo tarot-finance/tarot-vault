@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0-or-later Or MIT
 // File: contracts\SafeMath.sol
 
-
-
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -60,7 +58,11 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
 
@@ -119,7 +121,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -155,7 +161,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
@@ -203,7 +213,9 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transfer(address recipient, uint256 amount)
+        external
+        returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -212,7 +224,10 @@ interface IBEP20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(address _owner, address spender) external view returns (uint256);
+    function allowance(address _owner, address spender)
+        external
+        view
+        returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -239,7 +254,11 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -253,12 +272,14 @@ interface IBEP20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 }
 
 // File: contracts\Address.sol
-
-
 
 pragma solidity >=0.6.2 <0.8.0;
 
@@ -290,7 +311,9 @@ library Address {
 
         uint256 size;
         // solhint-disable-next-line no-inline-assembly
-        assembly { size := extcodesize(account) }
+        assembly {
+            size := extcodesize(account)
+        }
         return size > 0;
     }
 
@@ -311,11 +334,17 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(address(this).balance >= amount, "Address: insufficient balance");
+        require(
+            address(this).balance >= amount,
+            "Address: insufficient balance"
+        );
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{ value: amount }("");
-        require(success, "Address: unable to send value, recipient may have reverted");
+        (bool success, ) = recipient.call{value: amount}("");
+        require(
+            success,
+            "Address: unable to send value, recipient may have reverted"
+        );
     }
 
     /**
@@ -336,8 +365,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-      return functionCall(target, data, "Address: low-level call failed");
+    function functionCall(address target, bytes memory data)
+        internal
+        returns (bytes memory)
+    {
+        return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -346,7 +378,11 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(address target, bytes memory data, string memory errorMessage) internal returns (bytes memory) {
+    function functionCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
         return functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -361,8 +397,18 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value
+    ) internal returns (bytes memory) {
+        return
+            functionCallWithValue(
+                target,
+                data,
+                value,
+                "Address: low-level call with value failed"
+            );
     }
 
     /**
@@ -371,12 +417,22 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage) internal returns (bytes memory) {
-        require(address(this).balance >= value, "Address: insufficient balance for call");
+    function functionCallWithValue(
+        address target,
+        bytes memory data,
+        uint256 value,
+        string memory errorMessage
+    ) internal returns (bytes memory) {
+        require(
+            address(this).balance >= value,
+            "Address: insufficient balance for call"
+        );
         require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
-        (bool success, bytes memory returndata) = target.call{ value: value }(data);
+        (bool success, bytes memory returndata) = target.call{value: value}(
+            data
+        );
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
@@ -386,8 +442,17 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
-        return functionStaticCall(target, data, "Address: low-level static call failed");
+    function functionStaticCall(address target, bytes memory data)
+        internal
+        view
+        returns (bytes memory)
+    {
+        return
+            functionStaticCall(
+                target,
+                data,
+                "Address: low-level static call failed"
+            );
     }
 
     /**
@@ -396,7 +461,11 @@ library Address {
      *
      * _Available since v3.3._
      */
-    function functionStaticCall(address target, bytes memory data, string memory errorMessage) internal view returns (bytes memory) {
+    function functionStaticCall(
+        address target,
+        bytes memory data,
+        string memory errorMessage
+    ) internal view returns (bytes memory) {
         require(isContract(target), "Address: static call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
@@ -404,7 +473,11 @@ library Address {
         return _verifyCallResult(success, returndata, errorMessage);
     }
 
-    function _verifyCallResult(bool success, bytes memory returndata, string memory errorMessage) private pure returns(bytes memory) {
+    function _verifyCallResult(
+        bool success,
+        bytes memory returndata,
+        string memory errorMessage
+    ) private pure returns (bytes memory) {
         if (success) {
             return returndata;
         } else {
@@ -426,12 +499,7 @@ library Address {
 
 // File: contracts\SafeBEP20.sol
 
-
-
 pragma solidity >=0.6.0 <0.8.0;
-
-
-
 
 /**
  * @title SafeBEP20
@@ -446,12 +514,27 @@ library SafeBEP20 {
     using SafeMath for uint256;
     using Address for address;
 
-    function safeTransfer(IBEP20 token, address to, uint256 value) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
+    function safeTransfer(
+        IBEP20 token,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transfer.selector, to, value)
+        );
     }
 
-    function safeTransferFrom(IBEP20 token, address from, address to, uint256 value) internal {
-        _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
+    function safeTransferFrom(
+        IBEP20 token,
+        address from,
+        address to,
+        uint256 value
+    ) internal {
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.transferFrom.selector, from, to, value)
+        );
     }
 
     /**
@@ -461,25 +544,60 @@ library SafeBEP20 {
      * Whenever possible, use {safeIncreaseAllowance} and
      * {safeDecreaseAllowance} instead.
      */
-    function safeApprove(IBEP20 token, address spender, uint256 value) internal {
+    function safeApprove(
+        IBEP20 token,
+        address spender,
+        uint256 value
+    ) internal {
         // safeApprove should only be called when setting an initial allowance,
         // or when resetting it to zero. To increase and decrease it, use
         // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
         // solhint-disable-next-line max-line-length
-        require((value == 0) || (token.allowance(address(this), spender) == 0),
+        require(
+            (value == 0) || (token.allowance(address(this), spender) == 0),
             "SafeBEP20: approve from non-zero to non-zero allowance"
         );
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(token.approve.selector, spender, value)
+        );
     }
 
-    function safeIncreaseAllowance(IBEP20 token, address spender, uint256 value) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).add(value);
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+    function safeIncreaseAllowance(
+        IBEP20 token,
+        address spender,
+        uint256 value
+    ) internal {
+        uint256 newAllowance = token.allowance(address(this), spender).add(
+            value
+        );
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(
+                token.approve.selector,
+                spender,
+                newAllowance
+            )
+        );
     }
 
-    function safeDecreaseAllowance(IBEP20 token, address spender, uint256 value) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).sub(value, "SafeBEP20: decreased allowance below zero");
-        _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
+    function safeDecreaseAllowance(
+        IBEP20 token,
+        address spender,
+        uint256 value
+    ) internal {
+        uint256 newAllowance = token.allowance(address(this), spender).sub(
+            value,
+            "SafeBEP20: decreased allowance below zero"
+        );
+        _callOptionalReturn(
+            token,
+            abi.encodeWithSelector(
+                token.approve.selector,
+                spender,
+                newAllowance
+            )
+        );
     }
 
     /**
@@ -493,17 +611,22 @@ library SafeBEP20 {
         // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that
         // the target address contains contract code and also asserts for success in the low-level call.
 
-        bytes memory returndata = address(token).functionCall(data, "SafeBEP20: low-level call failed");
-        if (returndata.length > 0) { // Return data is optional
+        bytes memory returndata = address(token).functionCall(
+            data,
+            "SafeBEP20: low-level call failed"
+        );
+        if (returndata.length > 0) {
+            // Return data is optional
             // solhint-disable-next-line max-line-length
-            require(abi.decode(returndata, (bool)), "SafeBEP20: BEP20 operation did not succeed");
+            require(
+                abi.decode(returndata, (bool)),
+                "SafeBEP20: BEP20 operation did not succeed"
+            );
         }
     }
 }
 
 // File: contracts\Context.sol
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -530,8 +653,6 @@ abstract contract Context {
 
 // File: contracts\Ownable.sol
 
-
-
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -549,12 +670,15 @@ pragma solidity >=0.6.0 <0.8.0;
 abstract contract Ownable is Context {
     address private _owner;
 
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
+    constructor() internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -592,7 +716,10 @@ abstract contract Ownable is Context {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(newOwner != address(0), "Ownable: new owner is the zero address");
+        require(
+            newOwner != address(0),
+            "Ownable: new owner is the zero address"
+        );
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
@@ -600,13 +727,7 @@ abstract contract Ownable is Context {
 
 // File: contracts\BEP20.sol
 
-
-
 pragma solidity >=0.4.0;
-
-
-
-
 
 /**
  * @dev Implementation of the {IBEP20} interface.
@@ -663,14 +784,14 @@ contract BEP20 is Context, IBEP20, Ownable {
     /**
      * @dev Returns the bep token owner.
      */
-    function getOwner() external override view returns (address) {
+    function getOwner() external view override returns (address) {
         return owner();
     }
 
     /**
      * @dev Returns the name of the token.
      */
-    function name() public override view returns (string memory) {
+    function name() public view override returns (string memory) {
         return _name;
     }
 
@@ -678,28 +799,28 @@ contract BEP20 is Context, IBEP20, Ownable {
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
      */
-    function symbol() public override view returns (string memory) {
+    function symbol() public view override returns (string memory) {
         return _symbol;
     }
 
     /**
-    * @dev Returns the number of decimals used to get its user representation.
-    */
-    function decimals() public override view returns (uint8) {
+     * @dev Returns the number of decimals used to get its user representation.
+     */
+    function decimals() public view override returns (uint8) {
         return _decimals;
     }
 
     /**
      * @dev See {BEP20-totalSupply}.
      */
-    function totalSupply() public override view returns (uint256) {
+    function totalSupply() public view override returns (uint256) {
         return _totalSupply;
     }
 
     /**
      * @dev See {BEP20-balanceOf}.
      */
-    function balanceOf(address account) public override view returns (uint256) {
+    function balanceOf(address account) public view override returns (uint256) {
         return _balances[account];
     }
 
@@ -711,7 +832,11 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(address recipient, uint256 amount) public override returns (bool) {
+    function transfer(address recipient, uint256 amount)
+        public
+        override
+        returns (bool)
+    {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
@@ -719,7 +844,12 @@ contract BEP20 is Context, IBEP20, Ownable {
     /**
      * @dev See {BEP20-allowance}.
      */
-    function allowance(address owner, address spender) public override view returns (uint256) {
+    function allowance(address owner, address spender)
+        public
+        view
+        override
+        returns (uint256)
+    {
         return _allowances[owner][spender];
     }
 
@@ -730,7 +860,11 @@ contract BEP20 is Context, IBEP20, Ownable {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public override returns (bool) {
+    function approve(address spender, uint256 amount)
+        public
+        override
+        returns (bool)
+    {
         _approve(_msgSender(), spender, amount);
         return true;
     }
@@ -747,12 +881,19 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - the caller must have allowance for `sender`'s tokens of at least
      * `amount`.
      */
-    function transferFrom (address sender, address recipient, uint256 amount) public override returns (bool) {
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public override returns (bool) {
         _transfer(sender, recipient, amount);
         _approve(
             sender,
             _msgSender(),
-            _allowances[sender][_msgSender()].sub(amount, 'BEP20: transfer amount exceeds allowance')
+            _allowances[sender][_msgSender()].sub(
+                amount,
+                "BEP20: transfer amount exceeds allowance"
+            )
         );
         return true;
     }
@@ -769,8 +910,15 @@ contract BEP20 is Context, IBEP20, Ownable {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(address spender, uint256 addedValue) public returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
+    function increaseAllowance(address spender, uint256 addedValue)
+        public
+        returns (bool)
+    {
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender].add(addedValue)
+        );
         return true;
     }
 
@@ -788,8 +936,18 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(address spender, uint256 subtractedValue) public returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, 'BEP20: decreased allowance below zero'));
+    function decreaseAllowance(address spender, uint256 subtractedValue)
+        public
+        returns (bool)
+    {
+        _approve(
+            _msgSender(),
+            spender,
+            _allowances[_msgSender()][spender].sub(
+                subtractedValue,
+                "BEP20: decreased allowance below zero"
+            )
+        );
         return true;
     }
 
@@ -820,11 +978,18 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
      */
-    function _transfer (address sender, address recipient, uint256 amount) internal {
-        require(sender != address(0), 'BEP20: transfer from the zero address');
-        require(recipient != address(0), 'BEP20: transfer to the zero address');
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal {
+        require(sender != address(0), "BEP20: transfer from the zero address");
+        require(recipient != address(0), "BEP20: transfer to the zero address");
 
-        _balances[sender] = _balances[sender].sub(amount, 'BEP20: transfer amount exceeds balance');
+        _balances[sender] = _balances[sender].sub(
+            amount,
+            "BEP20: transfer amount exceeds balance"
+        );
         _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
     }
@@ -839,7 +1004,7 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal {
-        require(account != address(0), 'BEP20: mint to the zero address');
+        require(account != address(0), "BEP20: mint to the zero address");
 
         _totalSupply = _totalSupply.add(amount);
         _balances[account] = _balances[account].add(amount);
@@ -858,9 +1023,12 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `account` must have at least `amount` tokens.
      */
     function _burn(address account, uint256 amount) internal {
-        require(account != address(0), 'BEP20: burn from the zero address');
+        require(account != address(0), "BEP20: burn from the zero address");
 
-        _balances[account] = _balances[account].sub(amount, 'BEP20: burn amount exceeds balance');
+        _balances[account] = _balances[account].sub(
+            amount,
+            "BEP20: burn amount exceeds balance"
+        );
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
@@ -878,9 +1046,13 @@ contract BEP20 is Context, IBEP20, Ownable {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve (address owner, address spender, uint256 amount) internal {
-        require(owner != address(0), 'BEP20: approve from the zero address');
-        require(spender != address(0), 'BEP20: approve to the zero address');
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal {
+        require(owner != address(0), "BEP20: approve from the zero address");
+        require(spender != address(0), "BEP20: approve to the zero address");
 
         _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
@@ -894,7 +1066,14 @@ contract BEP20 is Context, IBEP20, Ownable {
      */
     function _burnFrom(address account, uint256 amount) internal {
         _burn(account, amount);
-        _approve(account, _msgSender(), _allowances[account][_msgSender()].sub(amount, 'BEP20: burn amount exceeds allowance'));
+        _approve(
+            account,
+            _msgSender(),
+            _allowances[account][_msgSender()].sub(
+                amount,
+                "BEP20: burn amount exceeds allowance"
+            )
+        );
     }
 }
 
@@ -902,9 +1081,8 @@ contract BEP20 is Context, IBEP20, Ownable {
 
 pragma solidity 0.6.12;
 
-
 // SpiritToken with Governance.
-contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
+contract SpiritToken is BEP20("SpiritSwap Token", "SPIRIT") {
     /// @notice Creates `_amount` token to `_to`. Must only be called by the owner (MasterChef).
     function mint(address _to, uint256 _amount) public onlyOwner {
         _mint(_to, _amount);
@@ -918,7 +1096,7 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
     // https://github.com/compound-finance/compound-protocol/blob/master/contracts/Governance/Comp.sol
 
     /// @notice A record of each accounts delegate
-    mapping (address => address) internal _delegates;
+    mapping(address => address) internal _delegates;
 
     /// @notice A checkpoint for marking number of votes from a given block
     struct Checkpoint {
@@ -927,42 +1105,50 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
     }
 
     /// @notice A record of votes checkpoints for each account, by index
-    mapping (address => mapping (uint32 => Checkpoint)) public checkpoints;
+    mapping(address => mapping(uint32 => Checkpoint)) public checkpoints;
 
     /// @notice The number of checkpoints for each account
-    mapping (address => uint32) public numCheckpoints;
+    mapping(address => uint32) public numCheckpoints;
 
     /// @notice The EIP-712 typehash for the contract's domain
-    bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
+    bytes32 public constant DOMAIN_TYPEHASH =
+        keccak256(
+            "EIP712Domain(string name,uint256 chainId,address verifyingContract)"
+        );
 
     /// @notice The EIP-712 typehash for the delegation struct used by the contract
-    bytes32 public constant DELEGATION_TYPEHASH = keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
+    bytes32 public constant DELEGATION_TYPEHASH =
+        keccak256("Delegation(address delegatee,uint256 nonce,uint256 expiry)");
 
     /// @notice A record of states for signing / validating signatures
-    mapping (address => uint) public nonces;
+    mapping(address => uint256) public nonces;
 
-      /// @notice An event thats emitted when an account changes its delegate
-    event DelegateChanged(address indexed delegator, address indexed fromDelegate, address indexed toDelegate);
+    /// @notice An event thats emitted when an account changes its delegate
+    event DelegateChanged(
+        address indexed delegator,
+        address indexed fromDelegate,
+        address indexed toDelegate
+    );
 
     /// @notice An event thats emitted when a delegate account's vote balance changes
-    event DelegateVotesChanged(address indexed delegate, uint previousBalance, uint newBalance);
+    event DelegateVotesChanged(
+        address indexed delegate,
+        uint256 previousBalance,
+        uint256 newBalance
+    );
 
     /**
      * @notice Delegate votes from `msg.sender` to `delegatee`
      * @param delegator The address to get delegatee for
      */
-    function delegates(address delegator)
-        external
-        view
-        returns (address)
-    {
+    function delegates(address delegator) external view returns (address) {
         return _delegates[delegator];
     }
 
-   /**
-    * @notice Delegate votes from `msg.sender` to `delegatee`
-    * @param delegatee The address to delegate votes to
-    */
+    /**
+     * @notice Delegate votes from `msg.sender` to `delegatee`
+     * @param delegatee The address to delegate votes to
+     */
     function delegate(address delegatee) external {
         return _delegate(msg.sender, delegatee);
     }
@@ -978,14 +1164,12 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
      */
     function delegateBySig(
         address delegatee,
-        uint nonce,
-        uint expiry,
+        uint256 nonce,
+        uint256 expiry,
         uint8 v,
         bytes32 r,
         bytes32 s
-    )
-        external
-    {
+    ) external {
         bytes32 domainSeparator = keccak256(
             abi.encode(
                 DOMAIN_TYPEHASH,
@@ -996,25 +1180,22 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
         );
 
         bytes32 structHash = keccak256(
-            abi.encode(
-                DELEGATION_TYPEHASH,
-                delegatee,
-                nonce,
-                expiry
-            )
+            abi.encode(DELEGATION_TYPEHASH, delegatee, nonce, expiry)
         );
 
         bytes32 digest = keccak256(
-            abi.encodePacked(
-                "\x19\x01",
-                domainSeparator,
-                structHash
-            )
+            abi.encodePacked("\x19\x01", domainSeparator, structHash)
         );
 
         address signatory = ecrecover(digest, v, r, s);
-        require(signatory != address(0), "SPIRIT::delegateBySig: invalid signature");
-        require(nonce == nonces[signatory]++, "SPIRIT::delegateBySig: invalid nonce");
+        require(
+            signatory != address(0),
+            "SPIRIT::delegateBySig: invalid signature"
+        );
+        require(
+            nonce == nonces[signatory]++,
+            "SPIRIT::delegateBySig: invalid nonce"
+        );
         require(now <= expiry, "SPIRIT::delegateBySig: signature expired");
         return _delegate(signatory, delegatee);
     }
@@ -1024,13 +1205,10 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
      * @param account The address to get votes balance
      * @return The number of current votes for `account`
      */
-    function getCurrentVotes(address account)
-        external
-        view
-        returns (uint256)
-    {
+    function getCurrentVotes(address account) external view returns (uint256) {
         uint32 nCheckpoints = numCheckpoints[account];
-        return nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
+        return
+            nCheckpoints > 0 ? checkpoints[account][nCheckpoints - 1].votes : 0;
     }
 
     /**
@@ -1040,12 +1218,15 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
      * @param blockNumber The block number to get the vote balance at
      * @return The number of votes the account had as of the given block
      */
-    function getPriorVotes(address account, uint blockNumber)
+    function getPriorVotes(address account, uint256 blockNumber)
         external
         view
         returns (uint256)
     {
-        require(blockNumber < block.number, "SPIRIT::getPriorVotes: not yet determined");
+        require(
+            blockNumber < block.number,
+            "SPIRIT::getPriorVotes: not yet determined"
+        );
 
         uint32 nCheckpoints = numCheckpoints[account];
         if (nCheckpoints == 0) {
@@ -1078,9 +1259,7 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
         return checkpoints[account][lower].votes;
     }
 
-    function _delegate(address delegator, address delegatee)
-        internal
-    {
+    function _delegate(address delegator, address delegatee) internal {
         address currentDelegate = _delegates[delegator];
         uint256 delegatorBalance = balanceOf(delegator); // balance of underlying SPIRITs (not scaled);
         _delegates[delegator] = delegatee;
@@ -1090,12 +1269,18 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
         _moveDelegates(currentDelegate, delegatee, delegatorBalance);
     }
 
-    function _moveDelegates(address srcRep, address dstRep, uint256 amount) internal {
+    function _moveDelegates(
+        address srcRep,
+        address dstRep,
+        uint256 amount
+    ) internal {
         if (srcRep != dstRep && amount > 0) {
             if (srcRep != address(0)) {
                 // decrease old representative
                 uint32 srcRepNum = numCheckpoints[srcRep];
-                uint256 srcRepOld = srcRepNum > 0 ? checkpoints[srcRep][srcRepNum - 1].votes : 0;
+                uint256 srcRepOld = srcRepNum > 0
+                    ? checkpoints[srcRep][srcRepNum - 1].votes
+                    : 0;
                 uint256 srcRepNew = srcRepOld.sub(amount);
                 _writeCheckpoint(srcRep, srcRepNum, srcRepOld, srcRepNew);
             }
@@ -1103,7 +1288,9 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
             if (dstRep != address(0)) {
                 // increase new representative
                 uint32 dstRepNum = numCheckpoints[dstRep];
-                uint256 dstRepOld = dstRepNum > 0 ? checkpoints[dstRep][dstRepNum - 1].votes : 0;
+                uint256 dstRepOld = dstRepNum > 0
+                    ? checkpoints[dstRep][dstRepNum - 1].votes
+                    : 0;
                 uint256 dstRepNew = dstRepOld.add(amount);
                 _writeCheckpoint(dstRep, dstRepNum, dstRepOld, dstRepNew);
             }
@@ -1115,43 +1302,49 @@ contract SpiritToken is BEP20('SpiritSwap Token', 'SPIRIT') {
         uint32 nCheckpoints,
         uint256 oldVotes,
         uint256 newVotes
-    )
-        internal
-    {
-        uint32 blockNumber = safe32(block.number, "SPIRIT::_writeCheckpoint: block number exceeds 32 bits");
+    ) internal {
+        uint32 blockNumber = safe32(
+            block.number,
+            "SPIRIT::_writeCheckpoint: block number exceeds 32 bits"
+        );
 
-        if (nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber) {
+        if (
+            nCheckpoints > 0 &&
+            checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber
+        ) {
             checkpoints[delegatee][nCheckpoints - 1].votes = newVotes;
         } else {
-            checkpoints[delegatee][nCheckpoints] = Checkpoint(blockNumber, newVotes);
+            checkpoints[delegatee][nCheckpoints] = Checkpoint(
+                blockNumber,
+                newVotes
+            );
             numCheckpoints[delegatee] = nCheckpoints + 1;
         }
 
         emit DelegateVotesChanged(delegatee, oldVotes, newVotes);
     }
 
-    function safe32(uint n, string memory errorMessage) internal pure returns (uint32) {
+    function safe32(uint256 n, string memory errorMessage)
+        internal
+        pure
+        returns (uint32)
+    {
         require(n < 2**32, errorMessage);
         return uint32(n);
     }
 
-    function getChainId() internal pure returns (uint) {
+    function getChainId() internal pure returns (uint256) {
         uint256 chainId;
-        assembly { chainId := chainid() }
+        assembly {
+            chainId := chainid()
+        }
         return chainId;
     }
 }
 
 // File: contracts\SPIRITMasterChef.sol
 
-
-
 pragma solidity 0.6.12;
-
-
-
-
-
 
 // MasterChef is the master of Spirit. He can make Spirit and he is a fair guy.
 //
@@ -1166,8 +1359,8 @@ contract SpiritMasterChef is Ownable {
 
     // Info of each user.
     struct UserInfo {
-        uint256 amount;         // How many LP tokens the user has provided.
-        uint256 rewardDebt;     // Reward debt. See explanation below.
+        uint256 amount; // How many LP tokens the user has provided.
+        uint256 rewardDebt; // Reward debt. See explanation below.
         //
         // We do some fancy math here. Basically, any point in time, the amount of SPIRITs
         // entitled to a user but is pending to be distributed is:
@@ -1183,11 +1376,11 @@ contract SpiritMasterChef is Ownable {
 
     // Info of each pool.
     struct PoolInfo {
-        IBEP20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. SPIRITs to distribute per block.
-        uint256 lastRewardBlock;  // Last block number that SPIRITs distribution occurs.
-        uint256 accSpiritPerShare;   // Accumulated SPIRITs per share, times 1e12. See below.
-        uint16 depositFeeBP;      // Deposit fee in basis points
+        IBEP20 lpToken; // Address of LP token contract.
+        uint256 allocPoint; // How many allocation points assigned to this pool. SPIRITs to distribute per block.
+        uint256 lastRewardBlock; // Last block number that SPIRITs distribution occurs.
+        uint256 accSpiritPerShare; // Accumulated SPIRITs per share, times 1e12. See below.
+        uint16 depositFeeBP; // Deposit fee in basis points
     }
 
     // The SPIRIT TOKEN!
@@ -1204,7 +1397,7 @@ contract SpiritMasterChef is Ownable {
     // Info of each pool.
     PoolInfo[] public poolInfo;
     // Info of each user that stakes LP tokens.
-    mapping (uint256 => mapping (address => UserInfo)) public userInfo;
+    mapping(uint256 => mapping(address => UserInfo)) public userInfo;
     // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 public totalAllocPoint = 0;
     // The block number when SPIRIT mining starts.
@@ -1212,7 +1405,11 @@ contract SpiritMasterChef is Ownable {
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
-    event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
+    event EmergencyWithdraw(
+        address indexed user,
+        uint256 indexed pid,
+        uint256 amount
+    );
 
     constructor(
         SpiritToken _spirit,
@@ -1234,50 +1431,89 @@ contract SpiritMasterChef is Ownable {
 
     // Add a new lp to the pool. Can only be called by the owner.
     // XXX DO NOT add the same LP token more than once. Rewards will be messed up if you do.
-    function add(uint256 _allocPoint, IBEP20 _lpToken, uint16 _depositFeeBP, bool _withUpdate) public onlyOwner {
-        require(_depositFeeBP <= 10000, "add: invalid deposit fee basis points");
+    function add(
+        uint256 _allocPoint,
+        IBEP20 _lpToken,
+        uint16 _depositFeeBP,
+        bool _withUpdate
+    ) public onlyOwner {
+        require(
+            _depositFeeBP <= 10000,
+            "add: invalid deposit fee basis points"
+        );
         if (_withUpdate) {
             massUpdatePools();
         }
-        uint256 lastRewardBlock = block.number > startBlock ? block.number : startBlock;
+        uint256 lastRewardBlock = block.number > startBlock
+            ? block.number
+            : startBlock;
         totalAllocPoint = totalAllocPoint.add(_allocPoint);
-        poolInfo.push(PoolInfo({
-            lpToken: _lpToken,
-            allocPoint: _allocPoint,
-            lastRewardBlock: lastRewardBlock,
-            accSpiritPerShare: 0,
-            depositFeeBP: _depositFeeBP
-        }));
+        poolInfo.push(
+            PoolInfo({
+                lpToken: _lpToken,
+                allocPoint: _allocPoint,
+                lastRewardBlock: lastRewardBlock,
+                accSpiritPerShare: 0,
+                depositFeeBP: _depositFeeBP
+            })
+        );
     }
 
     // Update the given pool's SPIRIT allocation point and deposit fee. Can only be called by the owner.
-    function set(uint256 _pid, uint256 _allocPoint, uint16 _depositFeeBP, bool _withUpdate) public onlyOwner {
-        require(_depositFeeBP <= 10000, "set: invalid deposit fee basis points");
+    function set(
+        uint256 _pid,
+        uint256 _allocPoint,
+        uint16 _depositFeeBP,
+        bool _withUpdate
+    ) public onlyOwner {
+        require(
+            _depositFeeBP <= 10000,
+            "set: invalid deposit fee basis points"
+        );
         if (_withUpdate) {
             massUpdatePools();
         }
-        totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(_allocPoint);
+        totalAllocPoint = totalAllocPoint.sub(poolInfo[_pid].allocPoint).add(
+            _allocPoint
+        );
         poolInfo[_pid].allocPoint = _allocPoint;
         poolInfo[_pid].depositFeeBP = _depositFeeBP;
     }
 
     // Return reward multiplier over the given _from to _to block.
-    function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
+    function getMultiplier(uint256 _from, uint256 _to)
+        public
+        view
+        returns (uint256)
+    {
         return _to.sub(_from).mul(BONUS_MULTIPLIER);
     }
 
     // View function to see pending SPIRITs on frontend.
-    function pendingSpirit(uint256 _pid, address _user) external view returns (uint256) {
+    function pendingSpirit(uint256 _pid, address _user)
+        external
+        view
+        returns (uint256)
+    {
         PoolInfo storage pool = poolInfo[_pid];
         UserInfo storage user = userInfo[_pid][_user];
         uint256 accSpiritPerShare = pool.accSpiritPerShare;
         uint256 lpSupply = pool.lpToken.balanceOf(address(this));
         if (block.number > pool.lastRewardBlock && lpSupply != 0) {
-            uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-            uint256 spiritReward = multiplier.mul(spiritPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-            accSpiritPerShare = accSpiritPerShare.add(spiritReward.mul(1e12).div(lpSupply));
+            uint256 multiplier = getMultiplier(
+                pool.lastRewardBlock,
+                block.number
+            );
+            uint256 spiritReward = multiplier
+            .mul(spiritPerBlock)
+            .mul(pool.allocPoint)
+            .div(totalAllocPoint);
+            accSpiritPerShare = accSpiritPerShare.add(
+                spiritReward.mul(1e12).div(lpSupply)
+            );
         }
-        return user.amount.mul(accSpiritPerShare).div(1e12).sub(user.rewardDebt);
+        return
+            user.amount.mul(accSpiritPerShare).div(1e12).sub(user.rewardDebt);
     }
 
     // Update reward variables for all pools. Be careful of gas spending!
@@ -1300,10 +1536,15 @@ contract SpiritMasterChef is Ownable {
             return;
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
-        uint256 spiritReward = multiplier.mul(spiritPerBlock).mul(pool.allocPoint).div(totalAllocPoint);
+        uint256 spiritReward = multiplier
+        .mul(spiritPerBlock)
+        .mul(pool.allocPoint)
+        .div(totalAllocPoint);
         spirit.mint(devaddr, spiritReward.div(10));
         spirit.mint(address(this), spiritReward);
-        pool.accSpiritPerShare = pool.accSpiritPerShare.add(spiritReward.mul(1e12).div(lpSupply));
+        pool.accSpiritPerShare = pool.accSpiritPerShare.add(
+            spiritReward.mul(1e12).div(lpSupply)
+        );
         pool.lastRewardBlock = block.number;
     }
 
@@ -1313,18 +1554,26 @@ contract SpiritMasterChef is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         updatePool(_pid);
         if (user.amount > 0) {
-            uint256 pending = user.amount.mul(pool.accSpiritPerShare).div(1e12).sub(user.rewardDebt);
-            if(pending > 0) {
+            uint256 pending = user
+            .amount
+            .mul(pool.accSpiritPerShare)
+            .div(1e12)
+            .sub(user.rewardDebt);
+            if (pending > 0) {
                 safeSpiritTransfer(msg.sender, pending);
             }
         }
-        if(_amount > 0) {
-            pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
-            if(pool.depositFeeBP > 0){
+        if (_amount > 0) {
+            pool.lpToken.safeTransferFrom(
+                address(msg.sender),
+                address(this),
+                _amount
+            );
+            if (pool.depositFeeBP > 0) {
                 uint256 depositFee = _amount.mul(pool.depositFeeBP).div(10000);
                 pool.lpToken.safeTransfer(feeAddress, depositFee);
                 user.amount = user.amount.add(_amount).sub(depositFee);
-            }else{
+            } else {
                 user.amount = user.amount.add(_amount);
             }
         }
@@ -1338,11 +1587,13 @@ contract SpiritMasterChef is Ownable {
         UserInfo storage user = userInfo[_pid][msg.sender];
         require(user.amount >= _amount, "withdraw: not good");
         updatePool(_pid);
-        uint256 pending = user.amount.mul(pool.accSpiritPerShare).div(1e12).sub(user.rewardDebt);
-        if(pending > 0) {
+        uint256 pending = user.amount.mul(pool.accSpiritPerShare).div(1e12).sub(
+            user.rewardDebt
+        );
+        if (pending > 0) {
             safeSpiritTransfer(msg.sender, pending);
         }
-        if(_amount > 0) {
+        if (_amount > 0) {
             user.amount = user.amount.sub(_amount);
             pool.lpToken.safeTransfer(address(msg.sender), _amount);
         }
@@ -1377,7 +1628,7 @@ contract SpiritMasterChef is Ownable {
         devaddr = _devaddr;
     }
 
-    function setFeeAddress(address _feeAddress) public{
+    function setFeeAddress(address _feeAddress) public {
         require(msg.sender == feeAddress, "setFeeAddress: FORBIDDEN");
         feeAddress = _feeAddress;
     }
